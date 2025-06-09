@@ -1,5 +1,7 @@
 #include <iostream>
 #include <chrono>
+#include <array>
+#include <stdexcept>
 
 const int horner_iter(const int a[], const int x, const int n)
 {
@@ -17,30 +19,53 @@ const int horner_rec(const int a[], const int x, const int n, const int i)
     return a[n-i] + x * horner_rec(a, x, n, i-1);
 }
 
+// Recursive Horner's method with tail recursion optimization (AI GENERATED)
+constexpr int horner_recursive(const std::array<int, 9>& coeffs, int x, int degree, int index = 0, int accumulator = 0) {
+    if (degree < 0 || degree >= coeffs.size()) {
+        throw std::out_of_range("Invalid polynomial degree");
+    }
+    if (index > degree) {
+        return accumulator;
+    }
+    return horner_recursive(coeffs, x, degree, index + 1, accumulator * x + coeffs[index]);
+}
+
 int main()
 {
     constexpr int n = 8;
     constexpr int x = 2;
-    constexpr int a[9] = {1,1,2,20,49,34,23,43,556};
-    int out_rec, out_iter;
+    constexpr std::array<int, 9> a = {1, 1, 2, 20, 49, 34, 23, 43, 556};
+    int out_rec, out_iter, out_new_rec;
 
-    // Recursivo
-    auto start_rec = std::chrono::high_resolution_clock().now();
-    out_rec = horner_rec(a, x, n, n);
-    auto end_rec = std::chrono::high_resolution_clock().now();
-    std::cout << "Horner Recursivo: " << out_rec << '\n';
-    
-    // Iterativo
-    auto start_iter = std::chrono::high_resolution_clock().now();
-    out_iter = horner_iter(a, x, n);
-    auto end_iter = std::chrono::high_resolution_clock().now();
-    std::cout << "Horner Iterativo: " << out_iter << '\n';
-    
-    // Tempo
-    auto diff_rec = end_rec - start_rec;
-    auto diff_iter = end_iter - start_iter;
-    std::cout << "Tempo Recursivo: " << diff_rec.count() << "ms\n";
-    std::cout << "Tempo Iterativo: " << diff_iter.count() << "ms\n";
+    try {
+        auto start_rec = std::chrono::high_resolution_clock::now();
+        out_rec = horner_rec(a.data(), x, n, n);
+        auto end_rec = std::chrono::high_resolution_clock::now();
+        std::cout << "Horner Recursivo: " << out_rec << '\n';
+        
+        auto start_iter = std::chrono::high_resolution_clock::now();
+        out_iter = horner_iter(a.data(), x, n);
+        auto end_iter = std::chrono::high_resolution_clock::now();
+        std::cout << "Horner Iterativo: " << out_iter << '\n';
+        
+        // New Recursive (AI GENERATED)
+        auto start_new_rec = std::chrono::high_resolution_clock::now();
+        out_new_rec = horner_recursive(a, x, n);
+        auto end_new_rec = std::chrono::high_resolution_clock::now();
+        std::cout << "Horner Recursivo Novo: " << out_new_rec << '\n';
+        
+        // Timing
+        auto diff_rec = std::chrono::duration_cast<std::chrono::nanoseconds>(end_rec - start_rec);
+        auto diff_iter = std::chrono::duration_cast<std::chrono::nanoseconds>(end_iter - start_iter);
+        auto diff_new_rec = std::chrono::duration_cast<std::chrono::nanoseconds>(end_new_rec - start_new_rec);
+        std::cout << "Tempo Recursivo: " << diff_rec.count() << " ns\n";
+        std::cout << "Tempo Iterativo: " << diff_iter.count() << " ns\n";
+        std::cout << "Tempo Recursivo Novo: " << diff_new_rec.count() << " ns\n";
+    }
+    catch (const std::exception& e) {
+        std::cerr << "Erro: " << e.what() << '\n';
+        return 1;
+    }
     
     return 0;
 }
