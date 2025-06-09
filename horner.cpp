@@ -36,7 +36,7 @@ int main()
     constexpr int n = 8;
     constexpr int x = 2;
     constexpr int array[] = {1, 1, 2, 20, 49, 34, 23, 43, 556};
-    constexpr std::array<int, 9> array_std = {1, 1, 2, 20, 49, 34, 23, 43, 556};
+    constexpr std::array<int, 9> array_std = {556, 43, 23, 34, 49, 20, 2, 1, 1};
     int out_rec, out_iter, out_ai;
 
     //* Functions Execution
