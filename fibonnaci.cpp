@@ -1,4 +1,6 @@
 #include <iostream>
+#include <chrono>
+
 using namespace std;
 
 int iterativeFibonacci(int n) {
@@ -36,16 +38,41 @@ long long fibonacci(int n) {
 }
 
 int main() {
-    int n = 10; // Test with n = 10
+    constexpr int n = 10; // Test with n = 10
+    int out_iter, out_rec;
+    long long out_ai;
+
 
     // Option 1: Use iterativeFibonacci
-    cout << "Iterative Fibonacci(" << n << ") = " << iterativeFibonacci(n) << endl;
+    auto start_iter = chrono::high_resolution_clock::now();
+    out_iter = iterativeFibonacci(n);
+    auto end_iter   = chrono::high_resolution_clock::now();
     
     // Option 2: Use recursiveFibonacci
-    // cout << "Recursive Fibonacci(" << n << ") = " << recursiveFibonacci(n) << endl;
+    auto start_rec = chrono::high_resolution_clock::now();
+    out_rec = recursiveFibonacci(n);
+    auto end_rec   = chrono::high_resolution_clock::now();
     
     // Option 3: Use fibonacci (long long version)
-    // cout << "Long long Fibonacci(" << n << ") = " << fibonacci(n) << endl;
+    auto start_ai = chrono::high_resolution_clock::now();
+    out_ai = fibonacci(n);
+    auto end_ai   = chrono::high_resolution_clock::now();
+    
+    // Output
+    cout << "Iterative Fibonacci(" << n << ") = " << out_iter << endl;
+    cout << "Recursive Fibonacci(" << n << ") = " << out_rec << endl;
+    cout << "Long long Fibonacci(" << n << ") = " << out_ai << endl;
+
+
+    // Timing
+    auto diff_iter = chrono::duration_cast<chrono::nanoseconds>(end_iter - start_iter);
+    auto diff_rec  = chrono::duration_cast<chrono::nanoseconds>(end_rec  - start_rec);
+    auto diff_ai   = chrono::duration_cast<chrono::nanoseconds>(end_ai   - start_ai);
+    
+    cout << "Tempo Iterativo: " << diff_iter.count() << " ns\n";
+    cout << "Tempo Recursivo: " << diff_rec.count()  << " ns\n";
+    cout << "Tempo AI: "        << diff_ai.count()   << " ns\n";
+
 
     return 0;
 }
