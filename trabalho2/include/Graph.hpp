@@ -2,7 +2,6 @@
 
 #include "Node.hpp"
 #include "defines.hpp"
-#include <cstddef>
 
 using Back_edges = std::vector<std::pair<size_t, size_t>>; // Arestas de retorno na busca em profundidade
 using DFS_Tree = std::map<size_t, std::vector<size_t>>;    // Árvore de busca em profundidade
@@ -67,7 +66,7 @@ public:
 
 
     // APA.cpp
-    bool fecho(const size_t node_id);
+    bool fecho();
 
     //* Getters
     std::vector<Node> get_nodes() const;

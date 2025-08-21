@@ -1,12 +1,13 @@
 #include "../include/Graph.hpp"
 #include "defines.h"
 
-bool Graph::fecho(const size_t node_id)
+bool Graph::fecho()
 {
-    Node* vertice = this->get_node(node_id);
+    const size_t first_node_id{this->first_node->id};
+    Node* vertice = this->first_node;
     if(vertice == nullptr)
     {
-        std::cout << "fecho\n  Erro: não foi encontrado " << node_id << " no grafo\n  Retornando false...\n";
+        std::cout << "fecho\n  Erro: não foi encontrado " << first_node_id << " no grafo\n  Retornando false...\n";
         return false;
     }
     
@@ -15,7 +16,7 @@ bool Graph::fecho(const size_t node_id)
     for(Node* node = this->first_node; node != nullptr; node = node->next_node)
         marcado[node->id] = ' ';
 
-    this->fecho_aux(node_id, vertice, marcado);
+    this->fecho_aux(first_node_id, vertice, marcado);
 
     for(const auto& [id, marca] : marcado)
         if(marca == ' ')
