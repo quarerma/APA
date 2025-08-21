@@ -82,7 +82,8 @@ public:
     size_t get_number_of_nodes() const noexcept;
     Node* get_node(const size_t node_id) const;
     Edge* get_edge(const size_t node_id_1, const size_t node_id_2) const;
-
+    //conectividade grafo orientado
+    bool verifica_conectividade_fraca();
 
 private:
     std::string name;
@@ -109,6 +110,7 @@ private:
     Node* inicialize_j(Graph& graph);
 
     void fecho_aux(const size_t node_id, const Node* vertice, std::unordered_map<size_t,char>& marcado);
-
+    //conectividade grafo orientado auxiliar
+    void fecho_fraco_aux(size_t node_id, const std::unordered_map<size_t, std::vector<size_t>>& adj_simetrica, std::unordered_map<size_t, char>& marcado);
 };
 
