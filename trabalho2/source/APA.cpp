@@ -1,22 +1,30 @@
 #include "../include/Graph.hpp"
-#include "defines.hpp"
+#include "../include/defines.hpp"
+
+bool Graph::eh_conexo()
+{
+    if(this->is_directed())
+        return this->verifica_conectividade_fraca();
+    else
+        return this->fecho();
+}
 
 bool Graph::fecho()
 {
-    const size_t first_node_id{this->first_node->id};
-    Node* vertice = this->first_node;
-    if(vertice == nullptr)
+    if(this->first_node == nullptr)
     {
-        std::cout << "fecho\n  Erro: não foi encontrado " << first_node_id << " no grafo\n  Retornando false...\n";
+        std::cout << "Grafo esta vazio, retornando false\n";
         return false;
     }
     
+    Node* vertice = this->first_node;
+
     // cria map para os nos marcados
     std::unordered_map<size_t, char> marcado;
     for(Node* node = this->first_node; node != nullptr; node = node->next_node)
         marcado[node->id] = ' ';
 
-    this->fecho_aux(first_node_id, vertice, marcado);
+    this->fecho_aux(vertice, marcado);
 
     for(const auto& [id, marca] : marcado)
         if(marca == ' ')
@@ -24,16 +32,15 @@ bool Graph::fecho()
     return true;
 }
 
-void Graph::fecho_aux(const size_t node_id, const Node* vertice, std::unordered_map<size_t,char>& marcado)
+void Graph::fecho_aux(const Node* vertice, std::unordered_map<size_t,char>& marcado)
 {
     marcado[vertice->id] = '*';
 
-    auto edges{this->get_edges(node_id)};
-    for(const auto& edge : edges)
+    for(const Edge* edge = vertice->first_edge; edge != nullptr; edge = edge->next_edge)
     {
-        size_t w{edge.target_id};
+        size_t w{edge->target_id};
         if(marcado[w] != '*')
-            fecho_aux(w, this->get_node(w), marcado);
+            fecho_aux(this->get_node(w), marcado);
     }
 }
 

@@ -1,6 +1,5 @@
 #include "include/Graph.hpp"
 #include "include/defines.hpp"
-#include <chrono>
 
 int main (int argc, char *argv[]) {
     if (argc < 3) { 
@@ -24,9 +23,10 @@ int main (int argc, char *argv[]) {
     }
 
     Graph graph(instance_file, direcionado == "true");
+
+    // verifica se o grafo eh conexo
     auto start = std::chrono::high_resolution_clock::now();
-    //verifica se o grafo orientado é fracamente conexo
-    bool eh_conexo = graph.verifica_conectividade_fraca();
+    bool eh_conexo = graph.eh_conexo();
     auto end = std::chrono::high_resolution_clock::now();
     auto elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start);
     if (eh_conexo) {
