@@ -1,7 +1,7 @@
 #include "include/Graph.hpp"
 #include "include/defines.hpp"
 
-bool test(Graph &graph, int &time, size_t qtd = 30) {
+bool test(Graph &graph, int &time, size_t qtd) {
     time = 0;
     bool eh_conexo = false;
 
@@ -17,7 +17,7 @@ bool test(Graph &graph, int &time, size_t qtd = 30) {
     return eh_conexo;
 }
 
-void directed_test(std::ifstream &instance_file, size_t qtd = 30) {
+void directed_test(std::ifstream &instance_file, size_t qtd = 10000) {
     std::cout << std::endl << "================Teste com grafo direcionado================" << std::endl;
     bool direcionado = true;
     Graph directed_graph(instance_file, direcionado);
@@ -34,7 +34,7 @@ void directed_test(std::ifstream &instance_file, size_t qtd = 30) {
     std::cout << "Tempo médio de execucao: " << time/float(qtd) << " nanosegundos." << std::endl;
 }
 
-void undirected_test(std::ifstream &instance_file, size_t qtd = 30) {
+void undirected_test(std::ifstream &instance_file, size_t qtd = 10000) {
     std::cout << std::endl << "==============Teste com grafo não direcionado==============" << std::endl;
     Graph undirected_graph(instance_file);
     int time = 0;
