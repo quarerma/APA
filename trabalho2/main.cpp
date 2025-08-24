@@ -25,10 +25,10 @@ void directed_test(std::ifstream &instance_file, size_t qtd = 10000) {
     bool eh_conexo = test(directed_graph, time, qtd);
 
     if (eh_conexo) {
-        std::cout << "O grafo eh fortemente conexo." << std::endl;
+        std::cout << "O grafo orientado eh fracamente conexo." << std::endl;
     }
     else {
-        std::cout << "O grafo nao eh fortemente conexo." << std::endl;
+        std::cout << "O grafo orientado nao eh conexo." << std::endl;
     }
     std::cout << "Numero de testes: " << qtd << std::endl;
     std::cout << "Tempo médio de execucao: " << time/float(qtd) << " nanosegundos." << std::endl;
@@ -41,10 +41,10 @@ void undirected_test(std::ifstream &instance_file, size_t qtd = 10000) {
     bool eh_conexo = test(undirected_graph, time, qtd);
 
     if (eh_conexo) {
-        std::cout << "O grafo eh fracamente conexo." << std::endl;
+        std::cout << "O grafo não orientado eh conexo." << std::endl;
     }
     else {
-        std::cout << "O grafo nao eh conexo." << std::endl;
+        std::cout << "O grafo não orientado nao eh conexo." << std::endl;
     }
     std::cout << "Numero de testes: " << qtd << std::endl;
     std::cout << "Tempo médio de execucao: " << time/float(qtd) << " nanosegundos." << std::endl;
@@ -85,8 +85,8 @@ int main () {
     // }
     // std::cout << "Tempo de execucao: " << elapsed.count() << " nanosegundos." << std::endl;
 
-    std::string instances[3] = {"grafo1.txt", "grafo2.txt", "grafo3.txt"};
-    for(int i=0; i<3; i++){
+    std::string instances[5] = {"grafo1.txt", "grafo2.txt", "grafo3.txt", "grafo4.txt", "grafo5.txt"};
+    for(int i=0; i<5; i++){
         std::ifstream instance_file("./instances/" + instances[i]);
         if (!instance_file.is_open()) {
             std::cerr << "Nao foi possivel abrir o arquivo " << instances[i] << std::endl;
@@ -96,10 +96,10 @@ int main () {
         std::cout << std::endl << std::endl << "**********************************************************" << std::endl;
         std::cout << "**************Testes com grafo de " << instances[i] << "**************" << std::endl;
         std::cout << "**********************************************************" << std::endl;
-        directed_test(instance_file);
+        directed_test(instance_file, 100000);
         instance_file.clear(); // Limpa o estado de eof para permitir nova leitura
         instance_file.seekg(0); // Retorna ao inicio do arquivo
-        undirected_test(instance_file);
+        undirected_test(instance_file, 100000);
     }
     return 0;
 }
