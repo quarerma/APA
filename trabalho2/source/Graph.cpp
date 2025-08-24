@@ -34,7 +34,7 @@ Graph::Graph(std::ifstream& instance, const bool directed, const bool weighted_e
     // lê o número de nós
     std::getline(instance, line);
     const size_t num_nodes = std::stoi(line);
-    std::cout << num_nodes << "\n";
+    // std::cout << num_nodes << "\n";
 
 
     // lê os nós e arestas
@@ -56,7 +56,7 @@ Graph::Graph(std::ifstream& instance, const bool directed, const bool weighted_e
         node_id_2 = std::stoi(string_node_2);
         weight = std::stof(string_weight);
 
-        std::cout << node_id_1 << " " << node_id_2 << " " << weight << std::endl;
+        // std::cout << node_id_1 << " " << node_id_2 << " " << weight << std::endl;
 
 
         // adiciona os nós e arestas ao grafo
