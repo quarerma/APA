@@ -1,17 +1,28 @@
 #include "include/Graph.hpp"
 #include "include/defines.hpp"
 
-void directed_test(std::ifstream &instance_file) {
-    // std::cout << "================Teste com grafo direcionado================" << std::endl;
+bool test(Graph &graph, int &time, size_t qtd = 30) {
+    time = 0;
+    bool eh_conexo = false;
+
+    for(size_t i=0; i<qtd; i++){
+        // Tempo de execucao da funcao eh_conexo
+        auto start = std::chrono::high_resolution_clock::now();
+        eh_conexo = graph.eh_conexo();
+        auto end = std::chrono::high_resolution_clock::now();
+
+        auto elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start);
+        time += elapsed.count();
+    }
+    return eh_conexo;
+}
+
+void directed_test(std::ifstream &instance_file, size_t qtd = 30) {
+    std::cout << std::endl << "================Teste com grafo direcionado================" << std::endl;
     bool direcionado = true;
     Graph directed_graph(instance_file, direcionado);
-
-    // Tempo de execucao da funcao eh_conexo
-    auto start = std::chrono::high_resolution_clock::now();
-    bool eh_conexo = directed_graph.eh_conexo();
-    auto end = std::chrono::high_resolution_clock::now();
-
-    auto elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start);
+    int time = 0;
+    bool eh_conexo = test(directed_graph, time, qtd);
 
     if (eh_conexo) {
         std::cout << "O grafo eh fortemente conexo." << std::endl;
@@ -19,19 +30,15 @@ void directed_test(std::ifstream &instance_file) {
     else {
         std::cout << "O grafo nao eh fortemente conexo." << std::endl;
     }
-    std::cout << "Tempo de execucao: " << elapsed.count() << " nanosegundos." << std::endl;
+    std::cout << "Numero de testes: " << qtd << std::endl;
+    std::cout << "Tempo médio de execucao: " << time/float(qtd) << " nanosegundos." << std::endl;
 }
 
-void undirected_test(std::ifstream &instance_file) {
-    // std::cout << "==============Teste com grafo não direcionado==============" << std::endl;
+void undirected_test(std::ifstream &instance_file, size_t qtd = 30) {
+    std::cout << std::endl << "==============Teste com grafo não direcionado==============" << std::endl;
     Graph undirected_graph(instance_file);
-
-    // Tempo de execucao da funcao eh_conexo
-    auto start = std::chrono::high_resolution_clock::now();
-    bool eh_conexo = undirected_graph.eh_conexo();
-    auto end = std::chrono::high_resolution_clock::now();
-
-    auto elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start);
+    int time = 0;
+    bool eh_conexo = test(undirected_graph, time, qtd);
 
     if (eh_conexo) {
         std::cout << "O grafo eh fracamente conexo." << std::endl;
@@ -39,10 +46,11 @@ void undirected_test(std::ifstream &instance_file) {
     else {
         std::cout << "O grafo nao eh conexo." << std::endl;
     }
-    std::cout << "Tempo de execucao: " << elapsed.count() << " nanosegundos." << std::endl;
+    std::cout << "Numero de testes: " << qtd << std::endl;
+    std::cout << "Tempo médio de execucao: " << time/float(qtd) << " nanosegundos." << std::endl;
 }
 
-int main (int argc, char *argv[]) {
+int main () {
     // if (argc < 2) { 
     //     std::cerr << "Erro: Faltando nome do arquivo de entrada" << std::endl;
     //     std::cerr << "Uso: " << argv[0] << " <caminho_para_o_arquivo>" << std::endl;
@@ -78,7 +86,6 @@ int main (int argc, char *argv[]) {
     // std::cout << "Tempo de execucao: " << elapsed.count() << " nanosegundos." << std::endl;
 
     std::string instances[3] = {"grafo1.txt", "grafo2.txt", "grafo3.txt"};
-
     for(int i=0; i<3; i++){
         std::ifstream instance_file("./instances/" + instances[i]);
         if (!instance_file.is_open()) {
@@ -86,7 +93,9 @@ int main (int argc, char *argv[]) {
             continue;
         }
 
-        std::cout << std::endl << "==========Testes com grafo de " << instances[i] << "=========" << std::endl;
+        std::cout << std::endl << std::endl << "**********************************************************" << std::endl;
+        std::cout << "**************Testes com grafo de " << instances[i] << "**************" << std::endl;
+        std::cout << "**********************************************************" << std::endl;
         directed_test(instance_file);
         instance_file.clear(); // Limpa o estado de eof para permitir nova leitura
         instance_file.seekg(0); // Retorna ao inicio do arquivo
