@@ -34,6 +34,9 @@ bool Graph::fecho()
 
 void Graph::fecho_aux(const Node* vertice, std::unordered_map<size_t,char>& marcado)
 {
+    if(marcado[vertice->id] == '*')  // vertice ja marcado
+        return;
+    
     marcado[vertice->id] = '*';
 
     for(const Edge* edge = vertice->first_edge; edge != nullptr; edge = edge->next_edge)
